@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="black-text"> {{profile.fullname}} <small class="amber-text">@{{profile.user.username}}</small> </h1>
+
+<div class="row">
+    <div class="col s12 m12">
+        <div class="card teal">
+            <div class="card-content white-text">
+                <span class="card-title">Biography</span>
+                <p>
+                    {{profile.biography}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="black-text">Education</h3>
+{% if profile.user.education.all %}
+    {% for education in profile.user.education.all %}
+    <div class="row">
+        <div class="col s12 m12">
+            <div class="card teal">
+                <div class="card-content white-text">
+                    <span class="card-title">{{education.school}} - {{education.major}}
+                        <span class="right">
+                            {% if education.end_year %}
+                            {{education.start_year}} - {{education.end_year}}
+                            {% else %}
+                            {{education.start_year}} - Present
+                            {% endif %} 
+                        </span>
+                    </span>
+                    <p>
+                        {{education.activities}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No Education</p>
+{% endif %}
+
+
+<h3 class="black-text">Experiences</h3>
+
+{% if profile.user.experience.all %}
+    {% for experience in profile.user.experience.all %}
+    <div class="row">
+        <div class="col s12 m12">
+            <div class="card teal">
+                <div class="card-content white-text">
+                    <span class="card-title">{{experience.company}} - {{experience.position}}
+                        <span class="right">
+                            {% if experience.end_year %}
+                            {{experience.start_year}} - {{experience.end_year}}
+                            {% else %}
+                            {{experience.start_year}} - Present
+                            {% endif %} 
+                        </span>
+                    </span>
+                    <p>
+                        {{experience.description}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No Experiences</p>
+{% endif %}
+
+<h3 class="black-text">Awards</h3>
+{% if profile.user.award.all %}
+    {% for award in profile.user.award.all %}
+    <div class="row">
+        <div class="col s12 m12">
+            <div class="card teal">
+                <div class="card-content white-text">
+                    <span class="card-title">{{award.name}}
+                        <span class="right">
+                            {{award.year}}
+                        </span>
+                    </span>
+                    <p>
+                        {{award.description}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No Awards</p>
+{% endif %}       
+
+{% endblock content %}

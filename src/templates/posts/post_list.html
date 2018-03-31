@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+    <div class="row">
+        <form class="col s12" method="GET">
+            <div class="row">
+                <div class="input-field col s12 m12">
+                    <i class="material-icons prefix">search</i>
+                    <input name="q" id="icon_prefix" type="text" class="validate" value='{{request.GET.q}}'>
+                    <label for="icon_prefix">Search Enlighteners and Enlightenments</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+{% if posts %}
+    {% for post in posts %}
+    <div class="row">
+        <div class="col s12 m12">
+            <div class="card teal">
+                <div class="card-content white-text">
+                    <span class="card-title black-text">{{post.title}} <a class="amber-text" href="{% url 'posts:profile_viewer' pk=post.user.profile.pk %}">@{{post.user.username}}</a>
+                        <span class="right">
+                            {{post.datetime}}
+                        </span>
+                    </span>
+                    <p>
+                        {{post.text}}
+                    </p>
+                </div>
+                {% if user.id == post.user.id %}
+                <div>
+                    <div class="card-action">
+                        <a class="amber-text" href="{% url 'posts:post_update' pk=post.pk %}">EDIT</a>
+                        <a class="amber-text" href="{% url 'posts:post_delete' pk=post.pk %}">DELETE</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No Posts</p>
+{% endif %}
+
+
+<div class="pagination" style="text-align: center">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a href="?page={{ posts.previous_page_number }}"><i class="material-icons black-text">chevron_left</i></a>
+        {% endif %}
+
+        <span class="current" style="font-size:30px">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}"><i class="material-icons black-text">chevron_right</i></a>
+        {% endif %}
+    </span>
+</div
+
+{% endblock content %}
