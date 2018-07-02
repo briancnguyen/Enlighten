@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% load material_form %}
 
 {% block content %}
 <h1>Update Work Experience</h1>
 <form method="POST">
     {% csrf_token %}
-    {{form.as_p}}
+    {% form form=form %}{% endform %}
     <button type="submit" class="btn">Update</button>
     <a class="btn red right" href="{% url 'profiles:profile_view' %}">Cancel</a>
 </form>

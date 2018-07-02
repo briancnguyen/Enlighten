@@ -1,9 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-from django.views.generic import *
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.urls import reverse
 from .forms import *
@@ -11,12 +9,12 @@ from .models import *
 
 class RegisterView(View):
     def get(self, request):
-        user = UserCreationForm()
+        user = UserCreateForm()
         profile = ProfileForm()
         return render(request, 'profiles/register.html', {'user': user, 'profile': profile})
 
     def post(self, request):
-        user = UserCreationForm(request.POST or None)
+        user = UserCreateForm(request.POST or None)
         profile = ProfileForm(request.POST or None)
         if user.is_valid() and profile.is_valid():
             user.save()
@@ -36,13 +34,13 @@ class ProfileView(LoginRequiredMixin, View):
 
 class ProfileUpdateView(LoginRequiredMixin, View):
     def get(self, request):
-        instance = get_object_or_404(Profile, pk=request.user.profile.pk)
-        form = ProfileForm(instance=instance)
+        profile = get_object_or_404(Profile, pk=request.user.profile.pk)
+        form = ProfileForm(instance=profile)
         return render(request, 'profiles/profile_update.html', {'form': form})
 
     def post(self, request):
-        instance = get_object_or_404(Profile, pk=request.user.profile.pk)
-        form = ProfileForm(request.POST or None, instance=instance)
+        profile = get_object_or_404(Profile, pk=request.user.profile.pk)
+        form = ProfileForm(request.POST or None, instance=profile)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('profiles:profile_view'))
@@ -63,13 +61,13 @@ class EducationCreateView(LoginRequiredMixin, View):
 
 class EducationUpdateView(LoginRequiredMixin, View):
     def get(self, request, pk):
-        instance = get_object_or_404(Education, pk=pk)
-        form = EducationForm(instance=instance)
+        education = get_object_or_404(Education, pk=pk)
+        form = EducationForm(instance=education)
         return render(request, 'profiles/education_update.html', {'form': form})
 
     def post(self, request, pk):
-        instance = get_object_or_404(Education, pk=pk)
-        form = EducationForm(request.POST or None, instance=instance)
+        education = get_object_or_404(Education, pk=pk)
+        form = EducationForm(request.POST or None, instance=education)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('profiles:profile_view'))
@@ -82,8 +80,8 @@ class EducationDeleteView(LoginRequiredMixin, View):
         return render(request, 'profiles/education_delete.html', {'education': education})
 
     def post(self, request, pk):
-        instance = get_object_or_404(Education, pk=pk)
-        instance.delete()
+        education = get_object_or_404(Education, pk=pk)
+        education.delete()
         return HttpResponseRedirect(reverse('profiles:profile_view'))
 
 
@@ -102,13 +100,13 @@ class ExperienceCreateView(LoginRequiredMixin, View):
 
 class ExperienceUpdateView(LoginRequiredMixin, View):
     def get(self, request, pk):
-        instance = get_object_or_404(Experience, pk=pk)
-        form = ExperienceForm(instance=instance)
+        experience = get_object_or_404(Experience, pk=pk)
+        form = ExperienceForm(instance=experience)
         return render(request, 'profiles/experience_update.html', {'form': form})
 
     def post(self, request, pk):
-        instance = get_object_or_404(Experience, pk=pk)
-        form = ExperienceForm(request.POST or None, instance=instance)
+        experience = get_object_or_404(Experience, pk=pk)
+        form = ExperienceForm(request.POST or None, instance=experience)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('profiles:profile_view'))
@@ -121,8 +119,8 @@ class ExperienceDeleteView(LoginRequiredMixin, View):
         return render(request, 'profiles/experience_delete.html', {'experience': experience})
 
     def post(self, request, pk):
-        instance = get_object_or_404(Experience, pk=pk)
-        instance.delete()
+        experience = get_object_or_404(Experience, pk=pk)
+        experience.delete()
         return HttpResponseRedirect(reverse('profiles:profile_view'))
 
 class AwardCreateView(LoginRequiredMixin, View):
@@ -140,13 +138,13 @@ class AwardCreateView(LoginRequiredMixin, View):
 
 class AwardUpdateView(LoginRequiredMixin, View):
     def get(self, request, pk):
-        instance = get_object_or_404(Award, pk=pk)
-        form = AwardForm(instance=instance)
+        award = get_object_or_404(Award, pk=pk)
+        form = AwardForm(instance=award)
         return render(request, 'profiles/award_update.html', {'form': form})
 
     def post(self, request, pk):
-        instance = get_object_or_404(Award, pk=pk)
-        form = AwardForm(request.POST or None, instance=instance)
+        award = get_object_or_404(Award, pk=pk)
+        form = AwardForm(request.POST or None, instance=award)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('profiles:profile_view'))
@@ -159,6 +157,6 @@ class AwardDeleteView(LoginRequiredMixin, View):
         return render(request, 'profiles/award_delete.html', {'award': award})
 
     def post(self, request, pk):
-        instance = get_object_or_404(Award, pk=pk)
-        instance.delete()
+        award = get_object_or_404(Award, pk=pk)
+        award.delete()
         return HttpResponseRedirect(reverse('profiles:profile_view'))

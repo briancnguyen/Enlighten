@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load material_form  %}
 
 {% block content %}
 <h1>Register</h1>
 <form method="POST">
     {% csrf_token %}
-    {{user.as_p}}
-    {{profile.as_p}}
+    {% form form=user %}{% endform %}
+    {% form form=profile %}{% endform %}
     <button type="submit" class="btn">Register</button>
 </form>
 {% endblock content %}

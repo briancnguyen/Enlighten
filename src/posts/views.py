@@ -39,13 +39,13 @@ class PostCreateView(LoginRequiredMixin, View):
 
 class PostUpdateView(LoginRequiredMixin, View):
     def get(self, request, pk):
-        instance = get_object_or_404(Post, pk=pk)
-        form = PostForm(instance=instance)
+        post = get_object_or_404(Post, pk=pk)
+        form = PostForm(instance=post)
         return render(request, 'posts/post_update.html', {'form': form})
 
     def post(self, request, pk):
-        instance = get_object_or_404(Post, pk=pk)
-        form = PostForm(request.POST or None, instance=instance)
+        post = get_object_or_404(Post, pk=pk)
+        form = PostForm(request.POST or None, instance=post)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('posts:post_detail', kwargs={'pk': pk}))
@@ -58,19 +58,19 @@ class PostDeleteView(LoginRequiredMixin, View):
         return render(request, 'posts/post_delete.html', {'post': post})
 
     def post(self, request, pk):
-        instance = get_object_or_404(Post, pk=pk)
-        instance.delete()
+        post = get_object_or_404(Post, pk=pk)
+        post.delete()
         return HttpResponseRedirect(reverse('posts:post_list'))
 
 class PostUpdateView(LoginRequiredMixin, View):
     def get(self, request, pk):
-        instance = get_object_or_404(Post, pk=pk)
-        form = PostForm(instance=instance)
+        post = get_object_or_404(Post, pk=pk)
+        form = PostForm(instance=post)
         return render(request, 'posts/post_update.html', {'form': form})
 
     def post(self, request, pk):
-        instance = get_object_or_404(Post, pk=pk)
-        form = PostForm(request.POST or None, instance=instance)
+        post = get_object_or_404(Post, pk=pk)
+        form = PostForm(request.POST or None, instance=post)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('posts:post_list'))
@@ -83,8 +83,8 @@ class PostDeleteView(LoginRequiredMixin, View):
         return render(request, 'posts/post_delete.html', {'post': post})
 
     def post(self, request, pk):
-        instance = get_object_or_404(Post, pk=pk)
-        instance.delete()
+        post = get_object_or_404(Post, pk=pk)
+        post.delete()
         return HttpResponseRedirect(reverse('posts:post_list'))
 
 class ProfileViewer(LoginRequiredMixin, View):
