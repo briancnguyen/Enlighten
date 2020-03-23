@@ -1,2 +1,2 @@
 # Enlighten
-A Django web application that allows entrepreneurs and philosophers to share their own thoughts and ideas to the world.
+A Django web application inspired by Quora that allows people to share their own thoughts and ideas to the whole world.
